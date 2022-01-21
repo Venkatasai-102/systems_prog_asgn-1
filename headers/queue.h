@@ -1,4 +1,10 @@
-typedef LLIST QUEUE; // Making a queue
+typedef struct _que
+{
+    LLIST que;
+    int size;
+} QUE; // making a queue structure
+
+typedef QUE* QUEUE;
 
 QUEUE createQueue(); // Creates an empty queue
 int isEmptyQueue(QUEUE Q); // Returns 1 if queue is empty

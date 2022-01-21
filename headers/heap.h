@@ -1,4 +1,10 @@
-typedef LLIST HEAP; // Making a heap
+typedef struct _heap
+{
+    LLIST hp;
+    int size;
+} _hp;
+
+typedef _hp* HEAP; // making a heap structure
 
 HEAP createHeap(); // Creates an empty heap
 int findMin(HEAP H); // Returns the minimum value in the heap

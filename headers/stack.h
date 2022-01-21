@@ -1,4 +1,10 @@
-typedef LLIST STACK; // Making a stack
+typedef struct stack
+{
+    LLIST stk;
+    int size;
+} STK; // making a stack structure
+
+typedef STK* STACK;
 
 STACK createStack(); // Creates an empty stack
 int isEmptyStack(STACK S); // Returns 1 if stack is empty
