@@ -62,6 +62,7 @@ LLIST deleteFromFront(LLIST H, int *k) // Delete a node at the front of list
     LLIST temp = H->next;
     *k = H->data;
     H->next = NULL;
+    free(H);
     return temp;
 }
 
@@ -78,6 +79,7 @@ LLIST deleteFromEnd(LLIST H, int *k) // Delete a node at the end of list
     *k = temp->data;
     prev->next = NULL;
     temp->next = NULL;
+    free(temp);
     return H;
 }
 
@@ -97,5 +99,6 @@ LLIST deleteList(LLIST H, int k) // Deletes Deletes the first occurance of node 
     
     prev->next = temp->next;
     temp->next = NULL;
+    free(temp);
     return H;
 }
