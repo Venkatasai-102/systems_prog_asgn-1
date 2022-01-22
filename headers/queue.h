@@ -1,6 +1,8 @@
+#include "./llist.h"
 typedef struct _que
 {
-    LLIST que;
+    LLIST front;
+    LLIST back;
     int size;
 } QUE; // making a queue structure
 

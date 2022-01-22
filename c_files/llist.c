@@ -24,6 +24,17 @@ int searchList(LLIST H, int k) // Searches for a nodes with given value in the l
     return 0;
 }
 
+void printList(LLIST H) // Prints the elements of the list
+{
+    LLIST temp = H;
+    while (temp != NULL)
+    {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
 LLIST insertAtFront(LLIST H, int k) // Inserts a node in front of list
 {
     LLIST new_node = createList();
@@ -49,6 +60,7 @@ LLIST insertAtEnd(LLIST H, int k) // Inserts a node at the end of list
 LLIST deleteFromFront(LLIST H, int *k) // Delete a node at the front of list
 {
     LLIST temp = H->next;
+    *k = H->data;
     H->next = NULL;
     return temp;
 }
@@ -63,6 +75,7 @@ LLIST deleteFromEnd(LLIST H, int *k) // Delete a node at the end of list
         temp = temp->next;
     }
     
+    *k = temp->data;
     prev->next = NULL;
     temp->next = NULL;
     return H;
