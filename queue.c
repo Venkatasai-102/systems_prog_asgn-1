@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../headers/queue.h"
+#include "queue.h"
 
 QUEUE createQueue() // Creates an empty queue
 {

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../headers/stack.h"
+#include "stack.h"
 
 STACK createStack() // Creates an empty stack
 {
