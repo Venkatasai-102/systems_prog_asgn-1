@@ -1,4 +1,3 @@
-#include "./llist.h"
 typedef LLIST STACK; // Making a stack data structure
 
 STACK createStack(); // Creates an empty stack

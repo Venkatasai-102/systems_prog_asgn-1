@@ -4,36 +4,100 @@
 
 QUEUE createQueue() // Creates an empty queue
 {
-    QUEUE new_que = (QUEUE)malloc(sizeof(QUEUE));
-    new_que->size = 0;
-    new_que->front->data = 0;
-    new_que->front->next = NULL;
-    new_que->back->data = 0;
-    new_que->back->next = NULL;
-    return new_que;
+    QUEUE q;
+    q = (QUEUE)malloc(sizeof(QUEUE));
+    q->front = q->end = NULL;
+    return q;
 }
 
 int isEmptyQueue(QUEUE Q) // Returns 1 if queue is empty
 {
-    if (Q->size == 0)
+    if (Q->front == NULL)
     {
         return 1;
     }
+
     return 0;
+}
+
+int front_que(QUEUE Q) // Returns the front value in the queue
+{
+    if (isEmptyQueue(Q))
+    {
+        return INT_MIN;
+    }
+    return Q->front->data;
 }
 
 QUEUE enqueue(QUEUE Q, int k) // Adds a value to queue
 {
-    QUEUE temp = createQueue();
-    temp->front->data = k;
-
-    if (Q->size == 0)
+    LLIST new_node = createList();
+    new_node->data = k;
+    if (isEmptyQueue(Q))
     {
-        temp->size = 1;
-        return temp;
+        Q->front = Q->end = new_node;
+        return Q;
     }
     
-    Q->size += 1;
-
+    new_node->next = Q->front;
+    Q->front = new_node;
+    return Q;
 }
-QUEUE dequeue(QUEUE Q, int *k); // Removes a value from queue
+
+QUEUE dequeue(QUEUE Q, int *k) // Removes a value from queue
+{
+    if (isEmptyQueue(Q))
+    {
+        printf("Queue is empty\n");
+        return NULL;
+    }
+    
+    *k = Q->end->data;
+    if (Q->front == Q->end)
+    {
+        LLIST temp = Q->front;
+        Q->front = Q->end = NULL;
+        free(temp);
+        return Q;
+    }
+    
+    LLIST temp = Q->front;
+    while (temp->next != Q->end)
+    {
+        temp = temp->next;
+    }
+    
+    LLIST temp2 = Q->end;
+    Q->end = temp;
+    free(temp2);
+    return Q;
+}
+
+// int main(int argc, char const *argv[])
+// {
+//     QUEUE que = createQueue();
+//     if (isEmptyQueue(que))
+//     {
+//         printf("The que is empty.\n");
+//     }
+//     int t = front_que(que);
+//     if (t == INT_MIN)
+//     {
+//         printf("The queue is empty.\n");
+//     }
+    
+//     int *k = (int *)malloc(sizeof(int));
+//     que = enqueue(que, 10);
+//     printf("%d ", front_que(que));
+//     que = enqueue(que, 20);
+//     printf("%d ", front_que(que));
+//     que = enqueue(que, 30);
+//     printf("%d\n", front_que(que));
+//     que = dequeue(que, k);
+//     printf("%d %d\n", front_que(que), *k);
+//     que = dequeue(que, k);
+//     printf("%d %d\n", front_que(que), *k);
+//     que = dequeue(que, k);
+//     printf("%d %d\n", front_que(que), *k);
+//     return 0;
+// }
