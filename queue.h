@@ -1,3 +1,4 @@
+#include "llist.c"
 typedef struct _que
 {
     LLIST front;

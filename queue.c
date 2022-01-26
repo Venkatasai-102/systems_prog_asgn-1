@@ -39,7 +39,7 @@ QUEUE enqueue(QUEUE Q, int k) // Adds a value to queue
         return Q;
     }
     
-    new_node->next = Q->front;
+    Q->front->next = new_node;
     Q->front = new_node;
     return Q;
 }
@@ -61,15 +61,9 @@ QUEUE dequeue(QUEUE Q, int *k) // Removes a value from queue
         return Q;
     }
     
-    LLIST temp = Q->front;
-    while (temp->next != Q->end)
-    {
-        temp = temp->next;
-    }
-    
-    LLIST temp2 = Q->end;
-    Q->end = temp;
-    free(temp2);
+    LLIST temp = Q->end;
+    Q->end = temp->next;
+    free(temp);
     return Q;
 }
 

@@ -1,6 +1,7 @@
+#include "llist.c"
 typedef struct _heap
 {
-    LLIST hp;
+    int *hp;
     int size;
 } _hp;
 
