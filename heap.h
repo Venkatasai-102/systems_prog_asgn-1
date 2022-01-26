@@ -1,4 +1,3 @@
-#include "llist.c"
 typedef struct _heap
 {
     int *hp;
