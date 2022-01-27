@@ -5,7 +5,7 @@
 QUEUE createQueue() // Creates an empty queue
 {
     QUEUE q;
-    q = (QUEUE)malloc(sizeof(QUEUE));
+    q = (QUEUE)malloc(sizeof(QUE));
     q->front = q->end = NULL;
     return q;
 }
@@ -72,7 +72,7 @@ QUEUE dequeue(QUEUE Q, int *k) // Removes a value from queue
 //     QUEUE que = createQueue();
 //     if (isEmptyQueue(que))
 //     {
-//         printf("The que is empty.\n");
+//         printf("The queue is empty.\n");
 //     }
 //     int t = front_que(que);
 //     if (t == INT_MIN)

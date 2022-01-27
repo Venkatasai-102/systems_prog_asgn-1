@@ -4,7 +4,7 @@
 
 STACK createStack() // Creates an empty stack
 {
-    STACK new_node = (STACK) malloc(sizeof(STACK));
+    STACK new_node = (STACK) malloc(sizeof(NODE));
     new_node->data = INT_MIN;
     new_node->next = NULL;
     return new_node;

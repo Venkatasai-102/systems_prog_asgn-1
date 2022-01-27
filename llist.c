@@ -4,7 +4,7 @@
 
 LLIST createList() // Creates a new linked list
 {
-    LLIST node = (LLIST)malloc(sizeof(LLIST));
+    LLIST node = (LLIST)malloc(sizeof(NODE));
     node->data = INT_MIN;
     node->next = NULL;
     return node;
