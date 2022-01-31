@@ -18,12 +18,12 @@ GRAPH readGraph(char *FName) // Forms a graph by reading the given file.
     g->cnt_vertices = cnt_v;
     g->cnt_edges = cnt_e;
 
-    g->adj_matrx = (int **)malloc(sizeof(int*)*cnt_v);
+    g->adj_matrx = (int **)malloc(sizeof(int *) * cnt_v);
     for (int i = 0; i < cnt_v; i++)
     {
         g->adj_matrx[i] = (int *)calloc(cnt_v, sizeof(int));
     }
-    
+
     int v1, v2, w;
     for (int i = 0; i < cnt_e; i++)
     {
@@ -31,24 +31,28 @@ GRAPH readGraph(char *FName) // Forms a graph by reading the given file.
         g->adj_matrx[v1][v2] = w;
         g->adj_matrx[v2][v1] = w;
     }
-    
+
     fclose(f);
-    
+
     return g;
 }
 
 void DFS(GRAPH G) // Runs DFS on the given graph and prints the post order traversal of the graph
 {
     int cnt_v = G->cnt_vertices;
-    int *visited = (int *)malloc(sizeof(int)*cnt_v);
+    int *visited = (int *)malloc(sizeof(int) * cnt_v);
     for (int i = 0; i < cnt_v; i++)
     {
         visited[i] = 0;
     }
 
+    printf("The DFS post order traversal of the graph is: ");
+    // printf("The DFS pre order traversal of the graph is: ");
+
     STACK stk = createStack();
     stk = push(stk, 0);
-    
+    // printf("0 "); // for printing the preorder traversal of the graph
+
     visited[0] = 1;
 
     int **adj_mtrx = G->adj_matrx;
@@ -63,6 +67,7 @@ void DFS(GRAPH G) // Runs DFS on the given graph and prints the post order trave
         {
             if (adj_mtrx[nd][i] != 0 && visited[i] != 1) // if there is an edge between the nd and other node and it is unvisited
             {
+                // printf("%d ", i); // for printing the pre order traversal of the graph
                 stk = push(stk, i);
                 unvst_ngbr = 1;
                 visited[i] = 1;
@@ -72,9 +77,10 @@ void DFS(GRAPH G) // Runs DFS on the given graph and prints the post order trave
         if (!unvst_ngbr)
         {
             stk = pop(stk, k);
-            printf("%d ", *k);
+            printf("%d ", *k); // for printing the post order traversal of the graph
         }
     }
+
     printf("\n");
     free(k);
     free(visited);
@@ -88,11 +94,12 @@ void BFS(GRAPH G) // Runs BFS on the given graph and prints preorder traversal
     {
         visited[i] = 0;
     }
-    
+
     QUEUE que = createQueue();
     visited[0] = 1;
     que = enqueue(que, 0);
     int **adj_mtrx = G->adj_matrx;
+    printf("The BFS traversal of the graph is: ");
 
     int *frnt = (int *)malloc(sizeof(int));
     while (isEmptyQueue(que) != 1)
@@ -115,7 +122,7 @@ void BFS(GRAPH G) // Runs BFS on the given graph and prints preorder traversal
 
 static edge *make_edge_list(int **adj_mtrx, int n, int e) // using as a static function to avoid it being used outside this file
 {
-    edge *list_edges = (edge *)malloc(sizeof(edge)*e);
+    edge *list_edges = (edge *)malloc(sizeof(edge) * e);
     int pos = 0;
 
     for (int i = 0; i < n; i++)
@@ -130,46 +137,24 @@ static edge *make_edge_list(int **adj_mtrx, int n, int e) // using as a static f
             }
         }
     }
-    
+
     return list_edges;
 }
 
-static int partition_edges(edge *list_edges, int start, int end) // using as a static function to avoid it being used outside this file
+static void sort_edges(edge *edge_list, int n)
 {
-    int item = list_edges[start].weight;
-    int i = start + 1;
-    int j = end;
-    while (i < j)
+    for (int i = 0; i < n; i++)
     {
-        while (i <= j && list_edges[i].weight < item)
+        for (int j = n-1; j > i; j--)
         {
-            i ++;
+            if (edge_list[j].weight < edge_list[j-1].weight)
+            {
+                edge temp = edge_list[j];
+                edge_list[j] = edge_list[j-1];
+                edge_list[j-1] = temp;
+            }
         }
-        while (j > start && list_edges[i].weight > item)
-        {
-            j --;
-        }
-        edge temp = list_edges[i];
-        list_edges[i] = list_edges[j];
-        list_edges[j] = temp;
     }
-
-    edge temp = list_edges[start];
-    list_edges[start] = list_edges[i];
-    list_edges[i] = temp;
-    return i;
-}
-
-static void sort_partitions(edge *list_edges, int start, int end) // using as a static function to avoid it being used outside this file
-{
-    if (start >= end)
-    {
-        return;
-    }
-    
-    int index = partition_edges(list_edges, start, end);
-    sort_partitions(list_edges, start, index-1);
-    sort_partitions(list_edges + index, index+1, end);
 }
 
 void MST(GRAPH G) // Computes the MST of the graph using Kruskal's Algorithm.
@@ -179,9 +164,14 @@ void MST(GRAPH G) // Computes the MST of the graph using Kruskal's Algorithm.
 
     edge *list_edges = make_edge_list(G->adj_matrx, n, e); // making the array of edges
 
-    sort_partitions(list_edges, 0, n-1); // sorting the edges to apply kruskal's algorithm
+    sort_edges(list_edges, e);
+    for (int i = 0; i < e; i++)
+    {
+        printf("%d %d %d\n", list_edges[i].v1, list_edges[i].v2, list_edges[i].weight);
+    }
 
-    UNION_FIND set_nodes = createUF(n);
+    UNION_FIND set_nodes = createUF(n-1);
+    
     int *k = (int *)malloc(sizeof(int));
 
     int weight = 0;
@@ -190,39 +180,62 @@ void MST(GRAPH G) // Computes the MST of the graph using Kruskal's Algorithm.
     {
         int v1 = list_edges[i].v1;
         int v2 = list_edges[i].v2;
-        if (set_nodes->set_uf[v1]->next == NULL)
+        int ind1, ind2, f1 = 0, f2 = 0;
+        for (int j = 0; j <= set_nodes->n; j++)
+        {
+            if (set_nodes->set_uf[j]->next->data == v1)
+            {
+                printf("found the first vertex\n");
+                ind1 = j;
+                f1 = 1;
+            }
+            if (set_nodes->set_uf[j]->next->data == v2)
+            {
+                printf("Found the second vertex\n");
+                ind2 = j;
+                f2 = 1;
+            }
+            if (f1 && f2)
+            {
+                break;
+            }
+        }
+        printf("vertices: %d %d\n", v1, v2);
+        if (set_nodes->set_uf[ind1]->next == NULL)
         {
             set_nodes = makeSetUF(set_nodes, v1, k);
+            printf("Made a new node1\n");
         }
         
-        if (set_nodes->set_uf[v2] == NULL)
+        if (set_nodes->set_uf[ind2]->next == NULL)
         {
             set_nodes = makeSetUF(set_nodes, v2, k);
+            printf("Made a new node2\n");
         }
         
-        NODE_PTR p1 = findUF(set_nodes, v1);
-        NODE_PTR p2 = findUF(set_nodes, v2);
+        printf("completed the edge\n");
+        NODE_PTR p1 = findUF(set_nodes, ind1);
+        NODE_PTR p2 = findUF(set_nodes, ind2);
 
         if (p1->data != p2->data)
         {
-            unionUF(set_nodes, v1, v2);
+            unionUF(set_nodes, ind1, ind2);
             int wt = list_edges[i].weight;
-            printf("%d %d %d", v1, v2, wt);
             weight += wt;
         }
-        
-        if (set_nodes->n == n-1)
+
+        if (set_nodes->n == set_nodes->size)
         {
             break;
         }
     }
-    printf("The total weight of the MST of the given graph is: %d", weight);
+    printf("The total weight of the MST of the given graph is: %d\n", weight);
 }
 
 int main(int argc, char const *argv[])
 {
     printf("Enter the name of text file: ");
-    char *pth = (char *)malloc(sizeof(char)*30);
+    char *pth = (char *)malloc(sizeof(char) * 30);
     scanf("%s", pth);
     GRAPH gr = readGraph(pth);
     DFS(gr);
