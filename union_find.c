@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 #include "union_find.h"
 
 UNION_FIND createUF(int n) // Create a union find data structure that can store n nodes pointers

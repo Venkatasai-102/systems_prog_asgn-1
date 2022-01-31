@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 #include "llist.h"
 
 LLIST createList() // Creates a new linked list
