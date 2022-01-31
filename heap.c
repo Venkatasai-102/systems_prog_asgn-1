@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <limits.h>
 #include <stdlib.h>
+#include <limits.h>
 #include "heap.h"
 
 HEAP createHeap() // Creates an empty heap

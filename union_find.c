@@ -7,6 +7,12 @@ UNION_FIND createUF(int n) // Create a union find data structure that can store 
 {
     UNION_FIND uf = (UNION_FIND) malloc(sizeof(UN_FD));
     uf->set_uf = (NODE_PTR *) malloc(sizeof(NODE_PTR) * n);
+    for (int i = 0; i < n; i++)
+    {
+        uf->set_uf[i] = (NODE_PTR) malloc(sizeof(ND_PTR));
+        uf->set_uf[i]->next = NULL;
+    }
+    
     uf->n = -1;
     uf->size = n;
     return uf;
@@ -20,13 +26,18 @@ UNION_FIND makeSetUF(UNION_FIND F, int x, int *i) // Inserts a value x
     new_node->data = x;
     new_node->cnt_mems = 1;
     new_node->next = NULL;
-    F->set_uf[*i] = new_node;
+    F->set_uf[*i]->next = new_node;
     return F;
 }
 
 NODE_PTR findUF(UNION_FIND F, int i) // Returns the id of the set
 {
-    NODE_PTR temp = F->set_uf[i];
+    if (i > F->size || F->set_uf[i]->next == NULL)
+    {
+        return NULL;
+    }
+    
+    NODE_PTR temp = F->set_uf[i]->next;
     while (temp->next != NULL)
     {
         temp = temp->next;
@@ -60,6 +71,7 @@ void unionUF(UNION_FIND F, int i, int j) // Make a union of parent of i and pare
 //     UNION_FIND uf = createUF(8);
 //     int *i = (int*)malloc(sizeof(int));
 //     uf = makeSetUF(uf, 34, i);
+//     printf("HEllo\n");
 //     printf("%d ", *i);
 //     uf = makeSetUF(uf, 19, i);
 //     printf("%d ", *i);
@@ -77,7 +89,7 @@ void unionUF(UNION_FIND F, int i, int j) // Make a union of parent of i and pare
 //     printf("%d\n", *i);
 //     for (int i = 0; i < 8; i++)
 //     {
-//         printf("%d ", uf->set_uf[i]->data);
+//         printf("%d ", uf->set_uf[i]->next->data);
 //     }
 //     printf("\n");
 
