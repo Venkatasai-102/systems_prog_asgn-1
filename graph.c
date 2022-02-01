@@ -165,65 +165,50 @@ void MST(GRAPH G) // Computes the MST of the graph using Kruskal's Algorithm.
     edge *list_edges = make_edge_list(G->adj_matrx, n, e); // making the array of edges
 
     sort_edges(list_edges, e);
-    for (int i = 0; i < e; i++)
-    {
-        printf("%d %d %d\n", list_edges[i].v1, list_edges[i].v2, list_edges[i].weight);
-    }
 
-    UNION_FIND set_nodes = createUF(n-1);
+    int *vertices = (int *)malloc(sizeof(int)*n);
+    
+    for (int i = 0; i < n; i++)
+    {
+        vertices[i] = -1;
+    }
+    
+    UNION_FIND set_nodes = createUF(n);
     
     int *k = (int *)malloc(sizeof(int));
 
     int weight = 0;
 
+    printf("The edges included and their weights in the MST are:\n");
     for (int i = 0; i < e; i++)
     {
         int v1 = list_edges[i].v1;
         int v2 = list_edges[i].v2;
-        int ind1, ind2, f1 = 0, f2 = 0;
-        for (int j = 0; j <= set_nodes->n; j++)
-        {
-            if (set_nodes->set_uf[j]->next->data == v1)
-            {
-                printf("found the first vertex\n");
-                ind1 = j;
-                f1 = 1;
-            }
-            if (set_nodes->set_uf[j]->next->data == v2)
-            {
-                printf("Found the second vertex\n");
-                ind2 = j;
-                f2 = 1;
-            }
-            if (f1 && f2)
-            {
-                break;
-            }
-        }
-        printf("vertices: %d %d\n", v1, v2);
-        if (set_nodes->set_uf[ind1]->next == NULL)
+        int ind1, ind2;
+        
+        if (vertices[v1] == -1)
         {
             set_nodes = makeSetUF(set_nodes, v1, k);
-            printf("Made a new node1\n");
+            vertices[v1] = *k;
         }
         
-        if (set_nodes->set_uf[ind2]->next == NULL)
+        if (vertices[v2] == -1)
         {
             set_nodes = makeSetUF(set_nodes, v2, k);
-            printf("Made a new node2\n");
+            vertices[v2] = *k;
         }
         
-        printf("completed the edge\n");
-        NODE_PTR p1 = findUF(set_nodes, ind1);
-        NODE_PTR p2 = findUF(set_nodes, ind2);
+        NODE_PTR p1 = findUF(set_nodes, vertices[v1]);
+        NODE_PTR p2 = findUF(set_nodes, vertices[v2]);
 
         if (p1->data != p2->data)
         {
-            unionUF(set_nodes, ind1, ind2);
+            unionUF(set_nodes, vertices[v1], vertices[v2]);
             int wt = list_edges[i].weight;
+            printf("%d, %d, %d\n", v1, v2, wt);
             weight += wt;
         }
-
+        
         if (set_nodes->n == set_nodes->size)
         {
             break;
@@ -232,14 +217,14 @@ void MST(GRAPH G) // Computes the MST of the graph using Kruskal's Algorithm.
     printf("The total weight of the MST of the given graph is: %d\n", weight);
 }
 
-int main(int argc, char const *argv[])
-{
-    printf("Enter the name of text file: ");
-    char *pth = (char *)malloc(sizeof(char) * 30);
-    scanf("%s", pth);
-    GRAPH gr = readGraph(pth);
-    DFS(gr);
-    BFS(gr);
-    MST(gr);
-    return 0;
-}
+// int main(int argc, char const *argv[])
+// {
+//     printf("Enter the name of text file: ");
+//     char *pth = (char *)malloc(sizeof(char) * 30);
+//     scanf("%s", pth);
+//     GRAPH gr = readGraph(pth);
+//     DFS(gr);
+//     BFS(gr);
+//     MST(gr);
+//     return 0;
+// }
