@@ -1,8 +1,10 @@
 SHELL = /bin/sh
 CC = gcc
-CFLAGS = -O2 -g -I.
-AR = ar
+CFLAGS = -O2 -g -fPIC
 LIBNAME = libasgp1.so
 OBJFILES = llist.o stack.o queue.o heap.o union_find.o
+
 library: $(OBJFILES)
-    $(AR) rcs $(LIBNAME) $(OBJFILES)
+    $(CC) -shared -o libasgp1.so $(OBJFILES)
+
+stack.o queue.o : llist.h
