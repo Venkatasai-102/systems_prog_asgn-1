@@ -8,7 +8,7 @@ LDFLAGS = -shared
 LIBNAME = libasgp1.so
 LIB = libasgp1
 SRCFILES = llist.c stack.c queue.c heap.c union_find.c
-OBJFILES = stack.o queue.o heap.o union_find.o
+OBJFILES = llist.o stack.o queue.o heap.o union_find.o
 
 library: $(SRCFILES) $(OBJFILES)
 	$(CC) $(CFLAGS) -c $(SRCFILES)
@@ -17,9 +17,8 @@ library: $(SRCFILES) $(OBJFILES)
 stack.o queue.o : llist.h
 
 $(LIBNAME): install
-
-intall:
-	mkdir $(INSTALLDIR)
+install:
+	-mkdir $(INSTALLDIR)
 	cp -p $(LIBNAME) $(INSTALLDIR)
 
 exec:
