@@ -1,10 +1,31 @@
+CLEANEXTS = o so
+INSTALLDIR = /usr/include/lib
+
 SHELL = /bin/sh
 CC = gcc
-CFLAGS = -O2 -g -fPIC
+CFLAGS = -Wall -fPIC
+LDFLAGS = -shared
 LIBNAME = libasgp1.so
-OBJFILES = llist.o stack.o queue.o heap.o union_find.o
+LIB = libasgp1
+SRCFILES = llist.c stack.c queue.c heap.c union_find.c
+OBJFILES = stack.o queue.o heap.o union_find.o
 
-library: $(OBJFILES)
-    $(CC) -shared -o libasgp1.so $(OBJFILES)
+library: $(SRCFILES) $(OBJFILES)
+	$(CC) $(CFLAGS) -c $(SRCFILES)
+	$(CC) $(LDFLAGS) -o $(LIBNAME) $(OBJFILES)
 
 stack.o queue.o : llist.h
+
+$(LIBNAME): install
+
+intall:
+	mkdir $(INSTALLDIR)
+	cp -p $(LIBNAME) $(INSTALLDIR)
+
+exec:
+	$(CC) -l main.c -$(LIB) -o main
+	./main
+
+$(LIBNAME): clean
+clean:
+	for file in $(CLEANEXTS); do rm -f *.$$file; done
