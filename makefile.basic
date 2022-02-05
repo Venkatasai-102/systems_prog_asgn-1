@@ -6,7 +6,7 @@ CC = gcc
 CFLAGS = -Wall -fPIC
 LDFLAGS = -shared
 LIBNAME = libasgp1.so
-LIB = libasgp1
+LIB = lasgp1
 SRCFILES = llist.c stack.c queue.c heap.c union_find.c
 OBJFILES = llist.o stack.o queue.o heap.o union_find.o
 

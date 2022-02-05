@@ -184,7 +184,6 @@ void MST(GRAPH G) // Computes the MST of the graph using Kruskal's Algorithm.
     {
         int v1 = list_edges[i].v1;
         int v2 = list_edges[i].v2;
-        int ind1, ind2;
         
         if (vertices[v1] == -1)
         {

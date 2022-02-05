@@ -1,0 +1,29 @@
+CLEANEXTS = o a
+INSTALLDIR = /usr/include/lib
+
+SHELL = /bin/sh
+CC = gcc
+CFLAGS = -Wall
+LDFLAGS = ar rcs
+LIBNAME = libasgp2.a
+LIB = libasgp2
+SRCFILES = graph.c
+OBJFILES = graph.o
+
+library: $(SRCFILES) $(OBJFILES)
+	$(CC) $(CFLAGS) -c $(SRCFILES)
+	$(LDFLAGS) $(LIBNAME) $(OBJFILES)
+
+graph.o : llist.h stack.h queue.h union_find.h
+
+$(LIBNAME): install
+	-mkdir $(INSTALLDIR)
+	cp -p $(LIBNAME) $(INSTALLDIR)
+
+exec:
+	$(CC) $(CFLAGS) -L. main.c $(LIB) -o main
+	./main
+
+$(LIBNAME):clean
+clean:
+	for file in $(CLEANEXTS); do rm -f *.$$file; done
