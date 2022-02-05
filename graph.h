@@ -1,3 +1,6 @@
+#ifndef GRAPH_H
+#define GRAPH_H
+
 typedef struct grph
 {
     int cnt_vertices;
@@ -17,3 +20,5 @@ GRAPH readGraph(char *FName); // Forms a graph by reading the given file.
 void DFS(GRAPH G); // Runs DFS on the given graph.
 void BFS(GRAPH G); // Runs BFS on the given graph.
 void MST(GRAPH G); // Computes the MST of the graph using Kruskal's Algorithm.
+
+#endif

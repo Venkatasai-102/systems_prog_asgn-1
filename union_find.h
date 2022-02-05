@@ -1,3 +1,6 @@
+#ifndef UNION_FIND_H
+#define UNION_FIND_H
+
 typedef struct ND_PTR
 {
     int data;
@@ -20,3 +23,5 @@ UNION_FIND createUF(int n); // Create a union find data structure that can store
 UNION_FIND makeSetUF(UNION_FIND F, int x, int *i); // Inserts a value x
 NODE_PTR findUF(UNION_FIND F, int i); // Returns the id of the set
 void unionUF(UNION_FIND F, int i, int j); // Make a union of parent of i and parent of j
+
+#endif

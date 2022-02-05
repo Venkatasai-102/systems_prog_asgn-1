@@ -1,3 +1,6 @@
+#ifndef HEAP_H
+#define HEAP_H
+
 typedef struct _heap
 {
     int *hp;
@@ -12,3 +15,5 @@ HEAP extractMin (HEAP H); // Deletes the minimum value in the heap and returns a
 HEAP insertHeap(HEAP H, int k); // Inserts a new value in the heap and returns a modified heap
 int isFullHeap(HEAP H); // Returns 1 if the heap is full
 int isEmptyHeap(HEAP H); // Returns 1 if the heap is empty
+
+#endif
