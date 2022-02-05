@@ -1,0 +1,15 @@
+# Download the zip folder and extract it.
+# Open the folder and open terminal in that folder.
+# Run the following commands:
+# 	1. cd libraries
+# 	2. make -f makefile.basic
+# 	3. sudo make -f makefile.basic install # enter the password to include the headers in the root folder
+# 	4. sudo make -f makefile.basic clean
+# 	5. make -f makefile.graph
+# 	6. sudo make -f makefile.graph install # enter the password to include the headers in the root folder if it ask
+# 	7. sudo make -f makefile.graph clean
+# 	8. cd ..
+# 	9. make -f makefile
+#	10. ./graph
+# The graph file will be executed and by entering the name of the text file where the graph is stored, the DFS, BFS and MST will
+# be printed.
